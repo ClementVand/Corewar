@@ -5,7 +5,6 @@ import 'package:corewar_app/my_shared_preferences.dart';
 import 'package:flutter/services.dart';
 
 void sendRawFile(String filename, String filesize, String filecontent) async {
-  Socket clientSocket;
   String? ip = await loadServerIP();
   String? port = await loadServerPort();
 
@@ -14,7 +13,7 @@ void sendRawFile(String filename, String filesize, String filecontent) async {
   }
 
   void _sendFile(Socket socket) {
-    socket.write(filecontent); // CONTENT
+    socket.write(filecontent);
   }
 
   void _callbackHandler(String msg, Socket socket) {
@@ -29,8 +28,6 @@ void sendRawFile(String filename, String filesize, String filecontent) async {
     print("Destination Address: $ip:$port}");
 
     Socket.connect(ip, int.parse(port.toString()), timeout: const Duration(seconds: 5)).then((socket) {
-      clientSocket = socket;
-
       _sendFileData(socket);
       socket.listen((onData) {
         _callbackHandler(String.fromCharCodes(onData).trim(), socket);

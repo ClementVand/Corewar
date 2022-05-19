@@ -38,6 +38,7 @@ dependencies:
   provider: ^6.0.2
   get: ^4.6.1
   tcp_socket_connection: ^0.2.2
+  ffi: ^1.2.1
   shared_preferences: ^2.0.15
 
 dev_dependencies:

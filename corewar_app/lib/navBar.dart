@@ -12,7 +12,7 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   List pages = [const CorewarPage(), const Asm_page(), const LogPage()];
-  int currentIndex = 1;
+  int currentIndex = 0;
 
   void onTap(int index) async {
     setState(() {
