@@ -5,6 +5,7 @@ import 'package:my_app/corewar_page.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Asm_page extends StatefulWidget {
   const Asm_page({Key? key}) : super(key: key);
@@ -15,6 +16,12 @@ class Asm_page extends StatefulWidget {
 }
 
 class _Asm_PageState extends State<Asm_page> {
+
+  void write_string() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setStringList('Champion', CorewarPage.listChampion);
+  }
 
   void add_in_string_champ(String newChamp) {
     if (CorewarPage.listChampion[0] == "") {
@@ -31,13 +38,16 @@ class _Asm_PageState extends State<Asm_page> {
 
   void buttonPressed() {
     String tmp = "${AsmTextField.name.text}";
+    int size = AsmTextField.prog.text.length;
 
     if (AsmTextField.name.text == '' || AsmTextField.prog.text == '') {
       print("Missing element");
     } else {
       AsmTextField.name.text = ("${AsmTextField.name.text}.cor");
+      print("Name of your champion : ${tmp}\nProg of your champ : ${AsmTextField.prog.text}\nSize of your prog :${size}");
       add_in_string_champ(AsmTextField.name.text);
       AsmTextField.name.text = tmp;
+      write_string();
     }
   }
 
