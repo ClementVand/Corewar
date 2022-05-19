@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -14,15 +15,25 @@ class Asm_page extends StatefulWidget {
 
 class _Asm_PageState extends State<Asm_page> {
 
+  void buttonPressed() {
+    String name_dir = AsmTextField.name.text;
+    String prog_info = AsmTextField.prog.text;
+
+    if (name_dir == '' || prog_info == '')
+      print("Missing element");
+    else
+      print("COMPILE FDP");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
         child : Stack(
-          children: [ HomeScreen(),
+          children: [ AsmTextField(),
             Positioned(bottom: 0, left : MediaQuery.of(context).size.width / 5, child: Row(
-            children: [FlatButton(onPressed: () => {}, child: Text("Compile"), color: Colors.red,),
-            Padding(child : FlatButton(onPressed: () => {HomeScreen.name.text = '', HomeScreen.prog.text = ''}, child: Text("Clear"), color: Colors.red,), padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 5),)],)
+            children: [FlatButton(onPressed: () => buttonPressed(), child: Text("Compile"), color: Colors.red,),
+            Padding(child : FlatButton(onPressed: () => {AsmTextField.name.text = '', AsmTextField.prog.text = ''}, child: Text("Clear"), color: Colors.red,), padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 5),)],)
             ),],
         ),
         onTap: () {
@@ -33,16 +44,15 @@ class _Asm_PageState extends State<Asm_page> {
   }
 }
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class AsmTextField extends StatefulWidget {
+  const AsmTextField({Key? key}) : super(key: key);
   static TextEditingController name = TextEditingController();
   static TextEditingController prog = TextEditingController();
 
-  HomeScreenState createState() => HomeScreenState();
-
+  _AsmTextFieldState createState() => _AsmTextFieldState();
 }
 
-class HomeScreenState extends State<HomeScreen>{
+class _AsmTextFieldState extends State<AsmTextField>{
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +70,12 @@ class HomeScreenState extends State<HomeScreen>{
                   height: 125,
                   padding: EdgeInsetsDirectional.only(top : 60.0),
                   child: TextField(
-                    controller: HomeScreen.name,
+                    controller: AsmTextField.name,
                     autocorrect: true,
                     decoration: const InputDecoration(hintText: 'Enter Name of file here', border: OutlineInputBorder()),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z._]")),
+                    ],
                   )
               ),
               Container(
@@ -70,7 +83,7 @@ class HomeScreenState extends State<HomeScreen>{
                   height: MediaQuery.of(context).size.height / 1.5,
                   padding: EdgeInsetsDirectional.only(top : 30.0),
                   child: TextField(
-                    controller: HomeScreen.prog,
+                    controller: AsmTextField.prog,
                     decoration: const InputDecoration(hintText: 'Enter your prog here', border: OutlineInputBorder()),
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
