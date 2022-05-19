@@ -19,12 +19,10 @@ class _Asm_PageState extends State<Asm_page> {
     return Scaffold(
       body: GestureDetector(
         child : Stack(
-          children: [
-            Positioned(child: AsmNameFileTextField(), top: 50, left: 25, width: MediaQuery.of(context).size.width / 1.2, height: 100,),
-            Positioned(child: AsmTextFieldProg(), top: 150, left: 0, width: 50, height: 50,),
-            Positioned(bottom: 0, child: Row(
-            children: [Padding(child: FlatButton(onPressed: () => {print(AsmTextFieldProg.controller.text)}, child: Text("Compile"), color: Colors.red,), padding: EdgeInsets.symmetric(horizontal: 55),),
-            Padding(child: FlatButton(onPressed: () => {AsmTextFieldProg.controller.text = ''}, child: Text("Clear"), color: Colors.red,), padding : EdgeInsets.symmetric(horizontal: 50))],)
+          children: [ HomeScreen(),
+            Positioned(bottom: 0, left : MediaQuery.of(context).size.width / 5, child: Row(
+            children: [FlatButton(onPressed: () => {}, child: Text("Compile"), color: Colors.red,),
+            Padding(child : FlatButton(onPressed: () => {HomeScreen.name.text = '', HomeScreen.prog.text = ''}, child: Text("Clear"), color: Colors.red,), padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 5),)],)
             ),],
         ),
         onTap: () {
@@ -35,70 +33,54 @@ class _Asm_PageState extends State<Asm_page> {
   }
 }
 
-class AsmTextFieldProg extends StatefulWidget {
-  const AsmTextFieldProg({Key? key}) : super(key: key);
-  static String message = '';
-  static TextEditingController controller = TextEditingController();
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+  static TextEditingController name = TextEditingController();
+  static TextEditingController prog = TextEditingController();
 
-  @override
-  _AsmTextFieldProgState createState() => _AsmTextFieldProgState();
+  HomeScreenState createState() => HomeScreenState();
+
 }
 
-class _AsmTextFieldProgState extends State<AsmTextFieldProg> {
+class HomeScreenState extends State<HomeScreen>{
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        child : Stack(
-          children: [TextField(
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              controller: AsmTextFieldProg.controller,
-            ),
-          ],
-        ),
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-      ),
-    );
-  }
-}
-
-class AsmNameFileTextField extends StatefulWidget {
-  const AsmNameFileTextField({Key? key}) : super(key: key);
-  static String message = '';
-  static TextEditingController controller = TextEditingController();
-
-  @override
-  _AsmNameFileTextFieldState createState() => _AsmNameFileTextFieldState();
-}
-
-class _AsmNameFileTextFieldState extends State<AsmNameFileTextField> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
-        child : Stack(
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Name of File',
+        body: SingleChildScrollView(
+        child : ConstrainedBox(
+          constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width,
+            minHeight: MediaQuery.of(context).size.height,),
+          child : IntrinsicHeight(child : Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                  width: 280,
+                  height: 125,
+                  padding: EdgeInsetsDirectional.only(top : 60.0),
+                  child: TextField(
+                    controller: HomeScreen.name,
+                    autocorrect: true,
+                    decoration: const InputDecoration(hintText: 'Enter Name of file here', border: OutlineInputBorder()),
+                  )
               ),
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              controller: AsmTextFieldProg.controller,
-            ),
-          ],
+              Container(
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  height: MediaQuery.of(context).size.height / 1.5,
+                  padding: EdgeInsetsDirectional.only(top : 30.0),
+                  child: TextField(
+                    controller: HomeScreen.prog,
+                    decoration: const InputDecoration(hintText: 'Enter your prog here', border: OutlineInputBorder()),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                  )
+              ),
+            ],
+          ),
         ),
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-      ),
-    );
+        ),)
+        ));
   }
 }
 

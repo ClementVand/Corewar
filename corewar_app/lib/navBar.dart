@@ -12,7 +12,7 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   List pages = [const CorewarPage(), const Asm_page(), const LogPage()];
-  int currentIndex = 0;
+  int currentIndex = 1;
 
   void onTap(int index) async {
     setState(() {
@@ -30,8 +30,8 @@ class _NavBarState extends State<NavBar> {
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: false,
         items: const [
-          BottomNavigationBarItem(label: "Corewar", icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: "ASM", icon: Icon(Icons.chat)),
+          BottomNavigationBarItem(label: "Corewar", icon: Icon(Icons.videogame_asset_rounded)),
+          BottomNavigationBarItem(label: "ASM", icon: Icon(Icons.build)),
           BottomNavigationBarItem(label: "LOG", icon: Icon(Icons.access_time_outlined)),
         ],
       ),
