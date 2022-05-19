@@ -1,7 +1,7 @@
+import 'package:corewar_app/asm_page.dart';
+import 'package:corewar_app/corewar_page.dart';
+import 'package:corewar_app/log_page.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/asm_page.dart';
-import 'package:my_app/corewar_page.dart';
-import 'package:my_app/log_page.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);

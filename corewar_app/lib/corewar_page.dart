@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'sidebar.dart';
+
 class CorewarPage extends StatefulWidget {
   const CorewarPage({Key? key}) : super(key: key);
 
@@ -9,19 +11,14 @@ class CorewarPage extends StatefulWidget {
 class _CorewarPageSate extends State<CorewarPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: GestureDetector(
-      child: Center(
-        child: Row(
-          children: [Text("Je suis le corewar"),
-            FlatButton(onPressed: () => {},
-              child: Text("Play"),
-              color: Colors.red),
-          ],
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: Scaffold(
+            drawer: const SideBar(),
+            body: Stack(children: const [SideBarButton()]),
+          ),
         ),
-      ),
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-    ),
-  );
+      );
 }

@@ -13,7 +13,9 @@ class _LogPafeState extends State<LogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        child: Center(child: Text("Je suis les log"),),
+        child: Center(
+          child: Text("Je suis les log"),
+        ),
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
