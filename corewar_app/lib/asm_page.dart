@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:my_app/corewar_page.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
@@ -15,14 +16,29 @@ class Asm_page extends StatefulWidget {
 
 class _Asm_PageState extends State<Asm_page> {
 
-  void buttonPressed() {
-    String name_dir = AsmTextField.name.text;
-    String prog_info = AsmTextField.prog.text;
+  void add_in_string_champ(String newChamp) {
+    if (CorewarPage.listChampion[0] == "") {
+      CorewarPage.valueChoose = newChamp;
+      CorewarPage.listChampion[0] = newChamp;
+    }
+    for (int i = 0; i < CorewarPage.listChampion.length; i++) {
+      if (CorewarPage.listChampion[i] == newChamp) {
+        return;
+      }
+    }
+    CorewarPage.listChampion.add(newChamp);
+  }
 
-    if (name_dir == '' || prog_info == '')
+  void buttonPressed() {
+    String tmp = "${AsmTextField.name.text}";
+
+    if (AsmTextField.name.text == '' || AsmTextField.prog.text == '') {
       print("Missing element");
-    else
-      print("COMPILE FDP");
+    } else {
+      AsmTextField.name.text = ("${AsmTextField.name.text}.cor");
+      add_in_string_champ(AsmTextField.name.text);
+      AsmTextField.name.text = tmp;
+    }
   }
 
   @override
@@ -74,7 +90,7 @@ class _AsmTextFieldState extends State<AsmTextField>{
                     autocorrect: true,
                     decoration: const InputDecoration(hintText: 'Enter Name of file here', border: OutlineInputBorder()),
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z._]")),
+                      FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                     ],
                   )
               ),
