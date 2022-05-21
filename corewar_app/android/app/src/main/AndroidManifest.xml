@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.corewar_app">
-   <application
-        android:label="corewar_app"
+    package="com.sooz.corewar">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:label="Corewar"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

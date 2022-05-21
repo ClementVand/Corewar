@@ -40,6 +40,7 @@ dependencies:
   tcp_socket_connection: ^0.2.2
   ffi: ^1.2.1
   shared_preferences: ^2.0.15
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:

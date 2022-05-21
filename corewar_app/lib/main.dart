@@ -1,9 +1,10 @@
-import 'package:corewar_app/navBar.dart';
+import 'package:corewar_app/navpages/navBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 
 import 'app_theme.dart';
+import 'my_shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());

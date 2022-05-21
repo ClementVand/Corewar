@@ -1,30 +1,31 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<String> _getDirPath() async {
-  final dir = await getApplicationDocumentsDirectory();
-  return dir.path;
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  return directory.path;
 }
 
-Future<String> readData(String filename) async {
-  final dirPath = await _getDirPath();
-  final myFile = File('$dirPath/$filename.txt');
-  final data = await myFile.readAsString(encoding: utf8);
+Future<File> _localFile(String filename) async {
+  final path = await _localPath;
+  return File('$path/counter.txt');
+}
+
+Future<Uint8List> readData(String filename) async {
+  final file = await _localFile(filename);
+  final Uint8List data = await file.readAsBytes();
 
   return (data);
 }
 
-final _textController = TextEditingController();
-Future<void> writeData(String filename, String content) async {
-  final _dirPath = await _getDirPath();
+Future<void> writeData(String filename, String content, FileMode mode) async {
+  final file = await _localFile(filename);
 
-  final _myFile = File('$_dirPath/$filename.txt');
-
-  // await _myFile.writeAsString(_textController.text);
-  await _myFile.writeAsString(content);
-  _textController.clear();
+  await file.writeAsBytes(content.codeUnits, mode: mode);
 }
