@@ -1,2 +1,0 @@
-.name "MrSooz"
-.comment "Soooooz"

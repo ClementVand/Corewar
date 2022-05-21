@@ -1,2 +1,0 @@
-.name "coucou"
-.comment "lol"
