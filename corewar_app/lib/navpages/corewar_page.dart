@@ -1,14 +1,12 @@
 import 'package:corewar_app/network/queue_up.dart';
-import 'package:corewar_app/network/cancel_queue.dart';
+import 'package:corewar_app/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:corewar_app/sidebar.dart';
-
 
 class CorewarPage extends StatefulWidget {
   const CorewarPage({Key? key}) : super(key: key);
   static List<String> listChampion = [""];
-  static String valueChoose = listChampion[0];
+  static String valueChoose = "";
   static bool inQueue = false;
 
   @override
@@ -63,6 +61,8 @@ class _CorewarPageWidgetsState extends State<CorewarPageWidgets> {
   void clearPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final success = await prefs.remove('Champion');
+    CorewarPage.listChampion[0] = "";
+    CorewarPage.valueChoose = CorewarPage.listChampion.isNotEmpty ? CorewarPage.listChampion[0] : "";
   }
 
   @override
@@ -71,29 +71,59 @@ class _CorewarPageWidgetsState extends State<CorewarPageWidgets> {
       padding: const EdgeInsets.only(top: 50),
       child: Column(
         children: [
-          FlatButton(onPressed: () => queueUp(CorewarPage.valueChoose, context), color: Colors.red, child: const Text("Play")),
-          FlatButton(onPressed: () => clearPreferences(), color: Colors.red, child: const Text("Clear")),
           Padding(
-            padding: const EdgeInsets.only(top: 200),
-            child: Center(
-              child: FutureBuilder<String>(
-                  future: message,
-                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    return (DropdownButton(
-                        value: CorewarPage.valueChoose,
-                        hint: const Text("No champions created"),
-                        onChanged: (newValue) {
-                          setState(() {
-                            CorewarPage.valueChoose = newValue.toString();
-                          });
-                        },
-                        items: CorewarPage.listChampion.map((valueItem) {
-                          return DropdownMenuItem(
-                            value: valueItem,
-                            child: Text(valueItem),
-                          );
-                        }).toList()));
-                  }),
+            padding: const EdgeInsets.only(top: 30),
+            child: Image.asset("assets/corewar.png"),
+          ),
+          const Text(
+            "COREWAR",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 40,
+              backgroundColor: Colors.black,
+            ),
+          ),
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 50, top: 30, bottom: 30),
+                child: FutureBuilder<String>(
+                    future: message,
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      return (DropdownButton(
+                          value: CorewarPage.valueChoose,
+                          hint: const Text("No Champion"),
+                          onChanged: (newValue) {
+                            setState(() {
+                              CorewarPage.valueChoose = newValue.toString();
+                            });
+                          },
+                          items: CorewarPage.listChampion.map((valueItem) {
+                            return DropdownMenuItem(
+                              value: valueItem,
+                              child: Text(valueItem, softWrap: true,),
+                            );
+                          }).toList()));
+                    }),
+              ),
+            Padding(padding: const EdgeInsets.only(left: 50), child :
+            FlatButton(
+              onPressed: () => setState(() {
+                clearPreferences();
+              }),
+              color: Colors.black,
+              child: const Text(
+                "Clear",
+                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),),
+          ]),
+          FlatButton(
+            onPressed: () => queueUp(CorewarPage.valueChoose, context),
+            color: Colors.black,
+            child: const Text(
+              "Play",
+              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ],

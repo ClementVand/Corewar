@@ -87,6 +87,7 @@ class _AsmTextFieldState extends State<AsmTextField> {
                         decoration: const InputDecoration(hintText: 'Enter Name of file here', border: OutlineInputBorder()),
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                          LengthLimitingTextInputFormatter(15),
                         ],
                       )),
                   Container(

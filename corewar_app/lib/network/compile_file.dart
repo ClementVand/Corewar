@@ -13,8 +13,8 @@ void writeString() async {
 
 void newChamp(String newChamp) {
   if (CorewarPage.listChampion[0] == "") {
-    CorewarPage.valueChoose = newChamp;
     CorewarPage.listChampion[0] = newChamp;
+    CorewarPage.valueChoose = newChamp;
   }
   for (int i = 0; i < CorewarPage.listChampion.length; i++) {
     if (CorewarPage.listChampion[i] == newChamp) {
