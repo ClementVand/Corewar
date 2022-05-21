@@ -113,7 +113,7 @@ class _AsmTextFieldState extends State<AsmTextField> {
 void showSnackBar(BuildContext context, String text) {
   final snackBar = SnackBar(
     content: Text(text),
-    duration: const Duration(seconds: 3),
+    duration: const Duration(seconds: 2),
   );
   Scaffold.of(context).showSnackBar(snackBar);
 }

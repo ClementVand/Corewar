@@ -35,8 +35,8 @@ def launchCorewar(opponents):
         print(return_msg)
         if return_msg.find("<WINNER>"):
             winner = int(return_msg[return_msg.index("<WINNER>") + 8])
-            opponents[winner]['Socket'].send("<WON>".encode())
-            opponents[0 if winner == 1 else 1]['Socket'].send("<LOST>".encode())
+            opponents[winner]['Socket'].send("<LOG> You won ! :)".encode())
+            opponents[0 if winner == 1 else 1]['Socket'].send("<LOG> You lost ! :(".encode())
             deleteFightingPlayer(opponents[0])
             deleteFightingPlayer(opponents[1])
     except:

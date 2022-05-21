@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:corewar_app/my_shared_preferences.dart';
 import 'package:corewar_app/navpages/corewar_page.dart';
-import 'package:corewar_app/navpages/navBar.dart';
 
-import '../navpages/asm_page.dart';
+import 'package:corewar_app/navpages/asm_page.dart';
+import 'package:corewar_app/navpages/log_page.dart';
 
 Future queueUp(String name, context) async {
   final authController = AuthController();
@@ -25,7 +25,6 @@ Future queueUp(String name, context) async {
   }
 
   void _sendData(Socket socket) async {
-    print("HELLO SERVER");
     socket.write("<QUEUEUP><SEPARATOR>$name<SEPARATOR>$uuid");
   }
 
@@ -35,9 +34,6 @@ Future queueUp(String name, context) async {
       CorewarPage.inQueue = true;
       showSnackBar(context, "You joined the queue");
     }
-    if (msg == "<WAITING>") {
-      print("Waiting");
-    }
     if (msg.contains("<CANCELQ>")) {
       CorewarPage.inQueue = false;
       socket.close();
@@ -46,14 +42,15 @@ Future queueUp(String name, context) async {
       showSnackBar(context, "$name not in database ! Compile it first !");
       socket.close();
     }
-    if (msg.contains("<WON>")) {
-      CorewarPage.inQueue = false;
-      showSnackBar(context, "You won !!! :D");
+    if (msg.contains("<LOG>")) {
+      String log = msg.split("<LOG>").last;
+      if (log.isNotEmpty) {
+        LogPage.log.value = LogPage.log.value + log + "\n";
+      }
       socket.close();
     }
-    if (msg.contains("<LOST>")) {
+    if (msg.contains("<EOS>")) {
       CorewarPage.inQueue = false;
-      showSnackBar(context, "You lost !!! :(");
       socket.close();
     }
     if (msg.contains("<ERROR>")) {
@@ -62,7 +59,6 @@ Future queueUp(String name, context) async {
   }
 
   void connectToServer() async {
-
     Socket.connect(ip, int.parse(port.toString()), timeout: const Duration(seconds: 5)).then((socket) {
       if (CorewarPage.inQueue == false) {
         _sendData(socket);
@@ -70,11 +66,13 @@ Future queueUp(String name, context) async {
       socket.listen((onData) async {
         await _callbackHandler(String.fromCharCodes(onData).trim(), socket);
       },
-          onDone: () => {
+          onDone: () =>
+          {
             print("Done !"),
             socket.close(),
           },
-          onError: (e) => {
+          onError: (e) =>
+          {
             print(e.toString()),
             socket.close(),
           });
