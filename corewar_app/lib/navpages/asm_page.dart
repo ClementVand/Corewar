@@ -22,13 +22,15 @@ class _Asm_PageState extends State<Asm_page> {
             const AsmTextField(),
             Positioned(
                 bottom: 0,
-                left: MediaQuery.of(context).size.width / 5,
+                left: MediaQuery.of(context).size.width / 7,
                 child: Row(
                   children: [
                     FlatButton(
                       onPressed: () => compileButton(AsmTextField.name, AsmTextField.program, Asm_page.isCompiling, context),
-                      child: const Text("Compile"),
-                      color: Colors.red,
+                      child: const Text(
+                        "Compile",
+                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
+                      color: Colors.black,
                     ),
                     Padding(
                       child: FlatButton(
@@ -36,8 +38,10 @@ class _Asm_PageState extends State<Asm_page> {
                           AsmTextField.name.text = '';
                           AsmTextField.program.text = '';
                         }),
-                        child: const Text("Clear"),
-                        color: Colors.red,
+                        child: const Text(
+                          "Clear",
+                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
+                        color: Colors.black,
                       ),
                       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 5),
                     )
